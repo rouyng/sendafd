@@ -18,22 +18,22 @@ sendafd [-ghlmpv] [-b COMMAND] [-t TEMPLATE] recipient email_server email_userna
 Emails a National Weather Service (United States) Area Forecast Discussion for the selected region.
 
 positional arguments:
-    recipient		destination email address for the AFD
-    email_server	domain or IP of SMTP server used to send outgoing emails
-    email_username	username used when connecting to the SMTP server
-    email_password	password used when connecting to the SMPT server
-    afd_location	three-character location ID used when retrieving the area forecast discussion from the weather.gov API
+    recipient		Destination email address for the AFD
+    email_server	Domain or IP of SMTP server used to send outgoing emails
+    email_username	Username used when connecting to the SMTP server
+    email_password	Password used when connecting to the SMPT server
+    afd_location	Three-character location ID used when retrieving the area forecast discussion from the weather.gov API
     
 options:
     -b, --buildcmd COMMAND	Run this build command, passing the path to the email generated from the template as an argument. Then email the output of the build command. Intended for use with email tools/frameworks that require a build step.
-    -g, --glossary		Add links to meteorological terms
-    -h, --help			Show this help message and exit
-    -l, --locations		Print a list of valid location IDs and descriptions for Area Forecast Discussions and exit
-    -m, --monitor		Run in monitor mode, where a cache of each AFD is stored after sending. Only send an email if the newest fetched AFD has changed. This is intended to be run at a shorter interval, such as every hour.
-    -p, --plaintext		Send the email in plaintext, without any template
+    -g, --glossary		    Add links to meteorological terms
+    -h, --help			    Show this help message and exit
+    -l, --locations		    Print a list of valid location IDs and descriptions for Area Forecast Discussions and exit
+    -m, --monitor		    Run in monitor mode, where a cache of each AFD is stored after sending. Only send an email if the newest fetched AFD has changed. This is intended to be run at a shorter interval, such as every hour.
+    -p, --plaintext		    Send the email in plaintext, without any template
     -t, --template TEMPLATE	Use the template at the path specified by TEMPLATE. Default: templates/default.html
-    -v, --verbose		Verbose output
-    --version			Display version information and exit
+    -v, --verbose		    Verbose output
+    --version			    Display version information and exit
 ```
 
 ### Examples
