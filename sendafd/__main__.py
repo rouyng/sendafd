@@ -1,6 +1,10 @@
 import argparse
 import logging
 
+import apiclient
+import renderer
+import emailclient
+
 VERSION = "0.1.0"
 
 logger = logging.getLogger("sendafd")
