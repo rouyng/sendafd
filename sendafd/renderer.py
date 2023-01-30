@@ -4,3 +4,6 @@ or plaintext.
 """
 
 import jinja2
+import logging
+
+logger = logging.getLogger(__name__)

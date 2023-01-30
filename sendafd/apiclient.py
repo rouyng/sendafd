@@ -4,3 +4,6 @@ https://www.weather.gov/documentation/services-web-api for API docs.
 """
 
 import requests
+import logging
+
+logger = logging.getLogger(__name__)
