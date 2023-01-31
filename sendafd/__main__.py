@@ -37,15 +37,15 @@ else:
     logger.setLevel("INFO")
 
 try:
-    logger.info("Starting sendAFD...")
     if args.locations:
         apiclient.print_region_codes()
     else:
+        logger.info("Starting sendAFD...")
         pass
         # TODO: fetch AFD from NWS API
         # TODO: parse raw API response into text ready to insert into template
         # TODO: generate email from template and AFD text
         # TODO: send email using SMTP server
-    logger.info("sendAFD finished")
+        logger.info("sendAFD finished")
 except KeyboardInterrupt:
     logger.critical("Received keyboard interrupt, exiting!")
