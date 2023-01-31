@@ -1,9 +1,7 @@
 import argparse
 import logging
 
-from . import apiclient
-from . import renderer
-from . import emailclient
+from . import apiclient, emailclient, renderer
 
 VERSION = "0.1.0"
 

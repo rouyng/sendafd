@@ -14,10 +14,10 @@ def print_region_codes():
     the codes with descriptions.
     """
     endpoint_url = "https://api.weather.gov/products/types/AFD/locations"
-    logging.debug(f"Checking for region codes using NWS API endpoint at {endpoint_url}")
+    logger.debug(f"Checking for region codes using NWS API endpoint at {endpoint_url}")
     api_response = requests.get(endpoint_url)
     api_response.raise_for_status()
-    logging.debug("NWS API request appears successful")
+    logger.debug("NWS API request appears successful")
     for c, d in api_response.json()['locations'].items():
         print(c, d)
 
