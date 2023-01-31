@@ -1,9 +1,9 @@
 import argparse
 import logging
 
-import apiclient
-import renderer
-import emailclient
+from . import apiclient
+from . import renderer
+from . import emailclient
 
 VERSION = "0.1.0"
 
@@ -20,6 +20,10 @@ parser = argparse.ArgumentParser(description="sendAFD emails the NWS's Area Fore
                                  prog="sendafd")
 
 # add command line arguments/options/flags
+parser.add_argument('-l', '--locations',
+                    action='store_true',
+                    help="Print a list of valid location IDs and descriptions for Area Forecast "
+                         "Discussions and exit")
 parser.add_argument('-v', '--verbose',
                     action='store_true',
                     help="Print debug messages.")
@@ -36,10 +40,14 @@ else:
 
 try:
     logger.info("Starting sendAFD...")
-    # TODO: fetch AFD from NWS API
-    # TODO: parse raw API response into text ready to insert into template
-    # TODO: generate email from template and AFD text
-    # TODO: send email using SMTP server
+    if args.locations:
+        apiclient.print_region_codes()
+    else:
+        pass
+        # TODO: fetch AFD from NWS API
+        # TODO: parse raw API response into text ready to insert into template
+        # TODO: generate email from template and AFD text
+        # TODO: send email using SMTP server
     logger.info("sendAFD finished")
 except KeyboardInterrupt:
     logger.critical("Received keyboard interrupt, exiting!")
