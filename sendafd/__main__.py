@@ -20,11 +20,12 @@ parser = argparse.ArgumentParser(description="sendAFD emails the NWS's Area Fore
                                  prog="sendafd")
 
 # add command line arguments/options/flags
-parser.add_argument('region')
+parser.add_argument('region',
+                    help="Three-letter region code for the Area Forecast Discussion."
+                    )
 parser.add_argument('-l', '--locations',
                     action='store_true',
-                    help="Print a list of valid location IDs and descriptions for Area Forecast "
-                         "Discussions and exit")
+                    help="Print a list of valid region codes with descriptions and exit.")
 parser.add_argument('-m', '--monitor',
                     action='store_true',
                     help="Run in monitor mode, where a cache of each AFD is stored after sending. "
