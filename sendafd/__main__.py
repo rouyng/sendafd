@@ -42,7 +42,7 @@ args = parser.parse_args()
 # set the logging level according to command line flags(s)
 if args.verbose:
     logger.setLevel("DEBUG")
-    logger.warning("Log level set to debug")
+    logger.info("Log level set to debug")
 else:
     logger.setLevel("INFO")
 
@@ -53,7 +53,10 @@ try:
         except HTTPError:
             logger.critical("Error connecting to the NWS API", exc_info=True)
     else:
-        logger.info("Starting sendAFD...")
+        if args.monitor:
+            logger.info("Starting sendAFD in monitor mode")
+        else:
+            logger.info("Starting sendAFD")
         raw_api_response = apiclient.fetch_afd(region=args.region, monitor=args.monitor)
         if raw_api_response['error'] is not None:
             logger.critical(f"Error fetching data from NWS API: {raw_api_response['error']}")

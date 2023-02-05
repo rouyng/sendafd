@@ -3,6 +3,7 @@ Fetch area forecast discussion text from the National Weather Service API and pa
 https://www.weather.gov/documentation/services-web-api for API docs.
 """
 
+import json
 import requests
 import logging
 
@@ -54,9 +55,11 @@ def fetch_afd(region: str, monitor: bool=False) -> dict:
             logger.exception("Unexpected API response structure")
             return {'response': None, 'error': "Unexpected API response structure"}
         if monitor:
-            # TODO: check latest product ID against cached product ID and see if it has changed.
-            #  If it hasn't, don't fetch the full AFD and exit.
-            cached_id = "foo" # placeholder value
+            cached_afd = read_afd_cache()
+            try:
+                cached_id = cached_afd['id']
+            except KeyError:
+                cached_id = None
             if latest_product_id == cached_id:
                 logger.debug(f"Latest product had same id ({latest_product_id}) as cached product ({cached_id}), ignoring.")
                 return {'response': None, 'error': None}
@@ -66,9 +69,38 @@ def fetch_afd(region: str, monitor: bool=False) -> dict:
         afd_product_response = requests.get(f"https://api.weather.gov/products/{latest_product_id}")
         try:
             afd_product_response.raise_for_status()
+            if monitor:
+                create_afd_cache(afd_product_response.json())
             return {'response': afd_product_response.json(), 'error': None}
         except requests.HTTPError:
             logger.exception("HTTP error fetching AFD product")
             error_description = "HTTP error fetching AFD product"
             return {'response': None, 'error': "HTTP error fetching AFD product"}
 
+def create_afd_cache(afd_raw: dict, cache_path: str = "cache.json"):
+    """
+    Serialize as JSON a dictionary containing the raw AFD product, then write it to a file.
+
+    :param afd_raw:
+    :param cache_path:
+    :return:
+    """
+    logger.debug(f"Writing cache file at {cache_path}")
+    with open(cache_path, 'w', encoding='utf-8') as f:
+        json.dump(afd_raw, f, ensure_ascii=False, indent=4)
+
+def read_afd_cache(cache_path: str = "cache.json") -> dict:
+    """
+    Read json file containing afd cache and return as a dictionary.
+
+    :param cache_path: Path to cache file, defaults to "cache.json"
+    :return: Dict containing AFD product
+    """
+    logger.debug(f"Reading cache file at {cache_path}")
+    try:
+        with open(cache_path, 'r', encoding='utf-8') as f:
+            cache_dict = json.load(f)
+    except FileNotFoundError:
+        logger.warning(f"Cache file not found at {cache_path}")
+        cache_dict = {}
+    return cache_dict
