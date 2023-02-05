@@ -3,7 +3,9 @@ Fetch area forecast discussion text from the National Weather Service API and pa
 https://www.weather.gov/documentation/services-web-api for API docs.
 """
 
+from datetime import datetime
 import json
+import re
 import requests
 import logging
 
@@ -104,3 +106,31 @@ def read_afd_cache(cache_path: str = "cache.json") -> dict:
         logger.warning(f"Cache file not found at {cache_path}")
         cache_dict = {}
     return cache_dict
+
+def parse_raw_afd(raw_afd: dict) -> dict:
+    """
+    Take the raw AFD product returned by the NWS API and parse the metadata and product body text
+    into a dictionary ready to be consumed by the renderer.
+
+    :param raw_afd: dictionary containing raw AFD product
+    :return: dictionary
+    """
+    product_id = raw_afd['id']
+    issuing_office = raw_afd['issuingOffice']
+    issuance_time = datetime.strptime(raw_afd['issuanceTime'], "%Y-%m-%dT%H:%M:%S%z")
+    raw_sections = [s.strip() for s in raw_afd['productText'].split("&&")]
+    sections = [{'name': 'Header', 'body': raw_sections.pop(0)},
+                {'name': 'Credits', 'body': raw_sections.pop()}]
+    section_header_regex = re.compile("\.(.+)\.\.\.")
+    for s in raw_sections:
+        section_header_match = re.match(section_header_regex, s)
+        if section_header_match:
+            header = section_header_match[1].capitalize()
+            body = s.lstrip(section_header_match[0])
+            sections.insert(len(sections)-1, {'name' : header, 'body' : body})
+    return {
+        'product id': product_id,
+        'issuing office': issuing_office,
+        'issuance time': issuance_time,
+        'sections' : sections
+    }
