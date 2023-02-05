@@ -21,6 +21,7 @@ parser = argparse.ArgumentParser(description="sendAFD emails the NWS Area Foreca
 
 # add command line arguments/options/flags
 parser.add_argument('region',
+                    nargs='?',
                     help="Three-letter region code for the Area Forecast Discussion."
                     )
 parser.add_argument('-l', '--locations',
