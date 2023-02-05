@@ -15,7 +15,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 # initialize command line argument parser
-parser = argparse.ArgumentParser(description="sendAFD emails the NWS's Area Forecast Discussion for "
+parser = argparse.ArgumentParser(description="sendAFD emails the NWS Area Forecast Discussion for "
                                              "a chosen area. For more details, see README.md",
                                  prog="sendafd")
 
@@ -48,7 +48,7 @@ else:
 try:
     if args.locations:
         try:
-            apiclient.print_region_codes()
+            apiclient.print_region_codes(apiclient.get_region_codes())
         except HTTPError:
             logger.critical("Error connecting to the NWS API", exc_info=True)
     else:

@@ -10,8 +10,8 @@ logger = logging.getLogger(__name__)
 
 def get_region_codes() -> dict:
     """
-    Query the NWS API for a list of valid region codes for area forecast discussion, then print
-    the codes with descriptions.
+    Query the NWS API for a list of valid region codes for area forecast discussion and return as a
+    dictionary.
     """
     endpoint_url = "https://api.weather.gov/products/types/AFD/locations"
     logger.debug(f"Checking for region codes using NWS API endpoint at {endpoint_url}")
@@ -20,9 +20,8 @@ def get_region_codes() -> dict:
     logger.debug("NWS API request appears successful")
     return api_response.json()['locations']
 
-def print_region_codes():
+def print_region_codes(codes: dict):
     """Print region codes"""
-    codes = get_region_codes()
     for c, d in codes.items():
         print(c, d)
 
@@ -35,7 +34,7 @@ def fetch_afd(region: str, monitor: bool=False) -> dict:
     valid_codes = get_region_codes()
     if region.lower() not in [code.lower() for code in valid_codes.keys()]:
         logger.critical(f"'{region}' is not a valid region code. Please use one of the following:")
-        print_region_codes()
+        print_region_codes(valid_codes)
         return {'response': None, 'error': "Invalid region code"}
     else:
         logger.debug(f"Getting list of published AFDs for region {region}")
