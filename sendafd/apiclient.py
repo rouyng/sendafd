@@ -108,30 +108,51 @@ def read_afd_cache(cache_path: str = "cache.json") -> dict:
         cache_dict = {}
     return cache_dict
 
-def parse_raw_afd(raw_afd: dict) -> dict:
+
+class AreaForecastDiscussion:
     """
     Take the raw AFD product returned by the NWS API and parse the metadata and product body text
-    into a dictionary ready to be consumed by the renderer.
-
-    :param raw_afd: dictionary containing raw AFD product
-    :return: dictionary
+    into an object ready to be consumed by the renderer.
     """
-    product_id = raw_afd['id']
-    issuing_office = raw_afd['issuingOffice']
-    issuance_time = datetime.strptime(raw_afd['issuanceTime'], "%Y-%m-%dT%H:%M:%S%z")
-    raw_sections = [s.strip() for s in raw_afd['productText'].split("&&")]
-    sections = [{'name': 'Header', 'body': raw_sections.pop(0)},
-                {'name': 'Credits', 'body': raw_sections.pop()}]
-    section_header_regex = re.compile("\.(.+)\.\.\.")
-    for s in raw_sections:
-        section_header_match = re.match(section_header_regex, s)
-        if section_header_match:
-            header = section_header_match[1].capitalize()
-            body = s.lstrip(section_header_match[0])
-            sections.insert(len(sections)-1, {'name' : header, 'body' : body})
-    return {
-        'product id': product_id,
-        'issuing office': issuing_office,
-        'issuance time': issuance_time,
-        'sections' : sections
-    }
+    def __init__(self, raw_afd: dict):
+        """
+
+        :param raw_afd: dictionary containing raw AFD product
+        """
+        self.product_id = raw_afd['id']
+        self.issuing_office = raw_afd['issuingOffice']
+        self.issuance_time = datetime.strptime(raw_afd['issuanceTime'], "%Y-%m-%dT%H:%M:%S%z")
+        # separate out sections using '&&' to demarcate
+        raw_sections = [s.strip() for s in raw_afd['productText'].split("&&")]
+        # parse header and footer sections first to preserve ordering
+        self.sections = [self.Section(raw_sections.pop(0), "header"),
+                         self.Section(raw_sections.pop(), "footer")]
+        # parse the rest of the sections, putting them in order between header and footer
+        for s in raw_sections:
+            self.sections.insert(len(self.sections) - 1, self.Section(s))
+        # initialize named sections from section list
+        self.header = self.sections[0].body
+        self.footer = self.sections[-1].body
+        for s in self.sections[1:-1]:
+            name_lc = s.name.lower()
+            translate_table = name_lc.maketrans({' ' : '_', '/': '_'})
+            attr_name = name_lc.translate(translate_table)
+            setattr(self, attr_name, s.body)
+
+
+
+    class Section:
+        section_header_regex = re.compile("\.(.+)\.\.\.")
+        def __init__(self, raw_section: str, name: str=None):
+            if name is not None:
+                self.name =  name
+                self.body = raw_section.strip()
+            else:
+                section_header_match = re.match(self.section_header_regex, raw_section)
+                if section_header_match:
+                    self.name = section_header_match[1].title()
+                    headerless_body = raw_section.lstrip(section_header_match[0])
+                    self.body = headerless_body.strip()
+                else:
+                    self.name = None
+                    self.body = raw_section.strip()
