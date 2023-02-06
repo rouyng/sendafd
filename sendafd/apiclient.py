@@ -35,14 +35,15 @@ def fetch_afd(region: str, monitor: bool=False) -> dict:
     """
     # check supplied region code is valid by checking against valid codes provided by the NWS API
     valid_codes = get_region_codes()
-    if region.lower() not in [code.lower() for code in valid_codes.keys()]:
+    region_lc = region.lower()
+    if region_lc not in [code.lower() for code in valid_codes.keys()]:
         logger.critical(f"'{region}' is not a valid region code. Please use one of the following:")
         print_region_codes(valid_codes)
         return {'response': None, 'error': "Invalid region code"}
     else:
         logger.debug(f"Getting list of published AFDs for region {region}")
         # get the list of recently issued AFDs for the supplied region code
-        afd_list_response = requests.get(f"https://api.weather.gov/products/types/afd/locations/{region.lower()}")
+        afd_list_response = requests.get(f"https://api.weather.gov/products/types/afd/locations/{region_lc}")
         try:
             afd_list_response.raise_for_status()
         except requests.HTTPError:
@@ -57,7 +58,7 @@ def fetch_afd(region: str, monitor: bool=False) -> dict:
             logger.exception("Unexpected API response structure")
             return {'response': None, 'error': "Unexpected API response structure"}
         if monitor:
-            cached_afd = read_afd_cache()
+            cached_afd = read_afd_cache(cache_path=f"cache_{region_lc}.json")
             try:
                 cached_id = cached_afd['id']
             except KeyError:
@@ -72,7 +73,7 @@ def fetch_afd(region: str, monitor: bool=False) -> dict:
         try:
             afd_product_response.raise_for_status()
             if monitor:
-                create_afd_cache(afd_product_response.json())
+                create_afd_cache(afd_product_response.json(), cache_path=f"cache_{region_lc}.json")
             return {'response': afd_product_response.json(), 'error': None}
         except requests.HTTPError:
             logger.exception("HTTP error fetching AFD product")
