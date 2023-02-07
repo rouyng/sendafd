@@ -2,7 +2,7 @@
 sendAFD is a command-line tool that emails the National Weather Service's Area Forecast Discussion for a chosen area. It provides a template system that defaults to a simple, readable email format, but also enables you to create and modify your own email templates. sendAFD is designed to be run automatically as a cronjob. Emails are sent via a SMTP server of your choice.
 
 ## Why use this?
-The NWS publishes Area Forecast Discussions (AFDs) multiple times a day for regions across the U.S. The AFD is a summary of current weather patterns, written by a NWS meteorologist.
+The NWS publishes Area Forecast Discussions (AFDs) multiple times a day for multiple regions across the U.S. The AFD is a summary of current weather patterns in the region, written by a NWS meteorologist.
 
 ## Requirements
 - Python 3.11 or greater.
