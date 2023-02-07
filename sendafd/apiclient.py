@@ -50,7 +50,7 @@ def fetch_afd(region: str, monitor: bool=False) -> dict:
             logger.exception("HTTP error fetching list of AFD products")
             return {'response': None, 'error': "HTTP error fetching list of AFD products"}
         try:
-            # from the list, grab the product ID of tge latest issued AFD
+            # from the list, grab the product ID of the latest issued AFD
             logger.debug(f"Returned {len(afd_list_response.json()['@graph'])} AFDs")
             latest_product_id = afd_list_response.json()['@graph'][0]['id']
             logger.debug(f"Latest AFD product ID: {latest_product_id}, issued {afd_list_response.json()['@graph'][0]['issuanceTime']}")
