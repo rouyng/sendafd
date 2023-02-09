@@ -16,7 +16,7 @@ def get_region_codes() -> dict:
     Query the NWS API for a list of valid region codes for area forecast discussion and return as a
     dictionary.
     """
-    endpoint_url = "https://api.weather.gov/products/types/AFD/locations"
+    endpoint_url = "https://api.weather.gov/products/types/afd/locations"
     logger.debug(f"Checking for region codes using NWS API endpoint at {endpoint_url}")
     api_response = requests.get(endpoint_url)
     api_response.raise_for_status()
@@ -34,7 +34,11 @@ def fetch_afd(region: str, monitor: bool=False) -> dict:
     the API response with the latest AFD.
     """
     # check supplied region code is valid by checking against valid codes provided by the NWS API
-    valid_codes = get_region_codes()
+    try:
+        valid_codes = get_region_codes()
+    except requests.HTTPError:
+        logger.exception("HTTP error fetching list of region codes")
+        return {'response': None, 'error': "HTTP error fetching list of region codes"}
     region_lc = region.lower()
     if region_lc not in [code.lower() for code in valid_codes.keys()]:
         logger.critical(f"'{region}' is not a valid region code. Please use one of the following:")
