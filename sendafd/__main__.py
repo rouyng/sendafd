@@ -52,6 +52,8 @@ try:
             apiclient.print_region_codes(apiclient.get_region_codes())
         except HTTPError:
             logger.critical("Error connecting to the NWS API", exc_info=True)
+        except (ValueError, KeyError):
+            logger.critical("Error parsing received location codes", exc_info=True)
     else:
         if args.monitor:
             logger.info("Starting sendAFD in monitor mode")

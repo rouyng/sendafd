@@ -20,8 +20,14 @@ def get_region_codes() -> dict:
     logger.debug(f"Checking for region codes using NWS API endpoint at {endpoint_url}")
     api_response = requests.get(endpoint_url)
     api_response.raise_for_status()
-    logger.debug("NWS API request appears successful")
-    return api_response.json()['locations']
+    codes_with_description = api_response.json()['locations']
+    if len(codes_with_description) == 0:
+        logger.critical(f"Request was successful, but zero location codes were received."
+                        f"\n Response headers: {api_response.headers}")
+        raise ValueError
+    else:
+        logger.debug("NWS API request appears successful")
+        return api_response.json()['locations']
 
 def print_region_codes(codes: dict):
     """Print region codes"""
@@ -81,7 +87,6 @@ def fetch_afd(region: str, monitor: bool=False) -> dict:
             return {'response': afd_product_response.json(), 'error': None}
         except requests.HTTPError:
             logger.exception("HTTP error fetching AFD product")
-            error_description = "HTTP error fetching AFD product"
             return {'response': None, 'error': "HTTP error fetching AFD product"}
 
 def create_afd_cache(afd_raw: dict, cache_path: str = "cache.json"):
