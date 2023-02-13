@@ -126,7 +126,8 @@ class AreaForecastDiscussion:
     def __init__(self, raw_afd: dict):
         """
 
-        :param raw_afd: dictionary containing raw AFD product
+        :param raw_afd: dictionary containing raw AFD product, in the same format returned by the
+        NWS API
         """
         self.product_id = raw_afd['id']
         self.issuing_office = raw_afd['issuingOffice']
@@ -144,7 +145,11 @@ class AreaForecastDiscussion:
         self.footer = self.sections[-1].body
         for s in self.sections[1:-1]:
             name_lc = s.name.lower()
-            translate_table = name_lc.maketrans({' ' : '_', '/': '_'})
+            translate_table = name_lc.maketrans({' ' : '_',
+                                                 '/': '_',
+                                                 '-': '_',
+                                                 '(': '',
+                                                 ')': ''})
             attr_name = name_lc.translate(translate_table)
             setattr(self, attr_name, s.body)
 
@@ -159,7 +164,7 @@ class AreaForecastDiscussion:
             else:
                 section_header_match = re.match(self.section_header_regex, raw_section)
                 if section_header_match:
-                    self.name = section_header_match[1].title()
+                    self.name = section_header_match[1].title().strip()
                     headerless_body = raw_section.lstrip(section_header_match[0])
                     self.body = headerless_body.strip()
                 else:
