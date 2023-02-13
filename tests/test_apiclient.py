@@ -74,7 +74,7 @@ def mocked_requests_get(*args, **kwargs):
                 "EAX": "Kansas City/Pleasant Hill, MO",
                 "EKA": "Eureka, CA",
                 "EPZ": "El Paso, TX",
-                "ERR": "Fake region for testing API error handling",
+                "ERR": "Fake region for testing API error handling, does not exist in real NWS API",
                 "EWX": "Austin/San Antonio, TX",
                 "FFC": "Peachtree City, GA",
                 "FGF": "Grand Forks, ND",
@@ -175,6 +175,16 @@ def mocked_requests_get(*args, **kwargs):
         with open("top_afd_list_response.json", 'r', encoding='utf-8') as f:
             json_response = json.load(f)
         return MockResponse(json_response, 200)
+    # response for AFD list for region LOX
+    elif args[0] == "https://api.weather.gov/products/types/afd/locations/lox":
+        with open("lox_afd_list_response.json", 'r', encoding='utf-8') as f:
+            json_response = json.load(f)
+        return MockResponse(json_response, 200)
+    # response for AFD list for region OKX
+    elif args[0] == "https://api.weather.gov/products/types/afd/locations/okx":
+        with open("okx_afd_list_response.json", 'r', encoding='utf-8') as f:
+            json_response = json.load(f)
+        return MockResponse(json_response, 200)
     # response for single AFD product for region PSR
     elif args[0] == "https://api.weather.gov/products/1d6cd33d-4017-4dd1-8dce-41d4541de35a":
         with open("psr_afd_response.json", 'r', encoding='utf-8') as f:
@@ -183,6 +193,16 @@ def mocked_requests_get(*args, **kwargs):
     # response for single AFD product for region TOP
     elif args[0] == "https://api.weather.gov/products/1f29f93c-583b-4144-ae22-8624a5e56504":
         with open("top_afd_response.json", 'r', encoding='utf-8') as f:
+            json_response = json.load(f)
+        return MockResponse(json_response, 200)
+    # response for single AFD product for region LOX
+    elif args[0] == "https://api.weather.gov/products/a922a688-acb5-4bb8-8a22-55c6a107b61d":
+        with open("lox_afd_response.json", 'r', encoding='utf-8') as f:
+            json_response = json.load(f)
+        return MockResponse(json_response, 200)
+    # response for single AFD product for region OKX
+    elif args[0] == "https://api.weather.gov/products/6893e2af-17ef-471a-b7bc-4a74a8af0374":
+        with open("okx_afd_response.json", 'r', encoding='utf-8') as f:
             json_response = json.load(f)
         return MockResponse(json_response, 200)
     return MockResponse(None, 404)
@@ -247,8 +267,8 @@ def test_psr_response(monkeypatch):
     assert api_response['response']['productCode'] == "AFD"
     assert api_response['response']['productName'] == "Area Forecast Discussion"
     assert "\n000\nFXUS65 KPSR 091229\nAFDPSR\n\nArea Forecast Discussion\nNational Weather " \
-           "Service Phoenix AZ\n529 AM MST Thu Feb 9 2023\n\n" in api_response['response'][
-               'productText']
+           "Service Phoenix AZ\n529 AM MST Thu Feb 9 2023\n\n" \
+           in api_response['response']['productText']
 
 
 def test_top_response(monkeypatch):
@@ -262,6 +282,33 @@ def test_top_response(monkeypatch):
     assert api_response['response']['productCode'] == "AFD"
     assert api_response['response']['productName'] == "Area Forecast Discussion"
     assert "\n000\nFXUS63 KTOP 122335\nAFDTOP\n\nArea Forecast Discussion\nNational Weather " \
-           "Service Topeka KS\n535 PM CST Sun Feb 12 2023" in \
-           api_response['response'][
-               'productText']
+           "Service Topeka KS\n535 PM CST Sun Feb 12 2023" \
+           in api_response['response']['productText']
+
+def test_lox_response(monkeypatch):
+    """Test fetching an example AFD for LOX region, without monitoring cache"""
+    requests_mock = Mock(side_effect=mocked_requests_get)
+    monkeypatch.setattr('requests.get', requests_mock)
+    api_response = apiclient.fetch_afd("LOX")
+    assert api_response['error'] is None
+    assert api_response['response'] is not None
+    assert api_response['response']['id'] == "a922a688-acb5-4bb8-8a22-55c6a107b61d"
+    assert api_response['response']['productCode'] == "AFD"
+    assert api_response['response']['productName'] == "Area Forecast Discussion"
+    assert "\n000\nFXUS66 KLOX 130046\nAFDLOX\n\nArea Forecast Discussion...UPDATED\nNational " \
+           "Weather Service Los Angeles/Oxnard CA \n446 PM PST Sun Feb 12 2023" \
+           in api_response['response']['productText']
+
+def test_okx_response(monkeypatch):
+    """Test fetching an example AFD for OKX region, without monitoring cache"""
+    requests_mock = Mock(side_effect=mocked_requests_get)
+    monkeypatch.setattr('requests.get', requests_mock)
+    api_response = apiclient.fetch_afd("OKX")
+    assert api_response['error'] is None
+    assert api_response['response'] is not None
+    assert api_response['response']['id'] == "6893e2af-17ef-471a-b7bc-4a74a8af0374"
+    assert api_response['response']['productCode'] == "AFD"
+    assert api_response['response']['productName'] == "Area Forecast Discussion"
+    assert "\n000\nFXUS61 KOKX 130251\nAFDOKX\n\nArea Forecast Discussion\nNational Weather " \
+           "Service New York NY\n951 PM EST Sun Feb 12 2023" \
+           in api_response['response']['productText']

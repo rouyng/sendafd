@@ -1,0 +1,647 @@
+{
+  "@context": {
+    "@version": "1.1",
+    "@vocab": "https://api.weather.gov/ontology#"
+  },
+  "@graph": [
+    {
+      "@id": "https://api.weather.gov/products/6893e2af-17ef-471a-b7bc-4a74a8af0374",
+      "id": "6893e2af-17ef-471a-b7bc-4a74a8af0374",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-13T02:51:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/9d9053f8-97e6-431d-8b4a-4dbdc9439c14",
+      "id": "9d9053f8-97e6-431d-8b4a-4dbdc9439c14",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-12T23:42:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/bc03d443-a1c4-49a0-9ae7-2948d9eb7f67",
+      "id": "bc03d443-a1c4-49a0-9ae7-2948d9eb7f67",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-12T20:37:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/1dc781a5-48a7-4cc2-bbfe-094cb77c88f9",
+      "id": "1dc781a5-48a7-4cc2-bbfe-094cb77c88f9",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-12T18:04:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/e11dc160-638a-4761-af0e-be77d3608223",
+      "id": "e11dc160-638a-4761-af0e-be77d3608223",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-12T16:45:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/70244cd8-9bfa-4a0c-be48-74f67e8bd833",
+      "id": "70244cd8-9bfa-4a0c-be48-74f67e8bd833",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-12T14:45:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/23f61d3b-6b3a-43cc-8d8c-6acecfcdfcd1",
+      "id": "23f61d3b-6b3a-43cc-8d8c-6acecfcdfcd1",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-12T12:58:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/7d9a4d60-959f-407d-9390-085532968e36",
+      "id": "7d9a4d60-959f-407d-9390-085532968e36",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-12T12:15:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/24b09a83-7955-4964-8f50-69b734623119",
+      "id": "24b09a83-7955-4964-8f50-69b734623119",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-12T10:58:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/13fb79ad-f12b-44a5-926d-5867f63d0ea4",
+      "id": "13fb79ad-f12b-44a5-926d-5867f63d0ea4",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-12T09:14:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/9ae52563-3126-4648-927c-9b4336c75842",
+      "id": "9ae52563-3126-4648-927c-9b4336c75842",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-12T05:44:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/a463a5a9-a672-4bb2-919f-2a50a129f275",
+      "id": "a463a5a9-a672-4bb2-919f-2a50a129f275",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-12T02:41:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/e75d5498-0d75-4f6e-a18d-4c0fef08d6be",
+      "id": "e75d5498-0d75-4f6e-a18d-4c0fef08d6be",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-11T23:46:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/32425c42-86c9-4643-8485-a77d9e7eda30",
+      "id": "32425c42-86c9-4643-8485-a77d9e7eda30",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-11T20:24:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/c5aab05b-d164-4936-a023-6b434db0e393",
+      "id": "c5aab05b-d164-4936-a023-6b434db0e393",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-11T18:10:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/b1f3717e-2f61-4feb-94cb-0c6a116d41f7",
+      "id": "b1f3717e-2f61-4feb-94cb-0c6a116d41f7",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-11T15:16:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/ceca43b5-59b4-4db9-9720-5f9c2c5a60f5",
+      "id": "ceca43b5-59b4-4db9-9720-5f9c2c5a60f5",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-11T14:38:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/aa4c63ca-5676-4ac5-9a1d-f8cdb571ddcb",
+      "id": "aa4c63ca-5676-4ac5-9a1d-f8cdb571ddcb",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-11T11:59:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/f1e6d3a1-4f33-41e2-8ff2-dacd7cab501e",
+      "id": "f1e6d3a1-4f33-41e2-8ff2-dacd7cab501e",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-11T11:00:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/09199547-f40a-4f82-bc5d-bfab39c9d575",
+      "id": "09199547-f40a-4f82-bc5d-bfab39c9d575",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-11T09:17:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/5c7d6b0a-f9a6-49f3-a291-8011c7ba04d3",
+      "id": "5c7d6b0a-f9a6-49f3-a291-8011c7ba04d3",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-11T05:39:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/1e9859e1-3de0-4d7f-915d-ce344252309a",
+      "id": "1e9859e1-3de0-4d7f-915d-ce344252309a",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-11T03:22:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/413e6030-b878-4615-a178-5c97470c5e27",
+      "id": "413e6030-b878-4615-a178-5c97470c5e27",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-11T00:01:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/b98f81ed-0143-4211-9115-9a4dc2e5407b",
+      "id": "b98f81ed-0143-4211-9115-9a4dc2e5407b",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-10T21:11:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/3bec49bf-406d-42c5-92a3-5a25cfe3676c",
+      "id": "3bec49bf-406d-42c5-92a3-5a25cfe3676c",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-10T18:21:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/820bc50e-e62c-4b29-8ed7-44fc91eadf0f",
+      "id": "820bc50e-e62c-4b29-8ed7-44fc91eadf0f",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-10T17:35:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/498e3385-fdac-4657-924c-4cda02e8be32",
+      "id": "498e3385-fdac-4657-924c-4cda02e8be32",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-10T15:18:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/924483f2-4a31-4c4c-ba68-49a4ef08aaf9",
+      "id": "924483f2-4a31-4c4c-ba68-49a4ef08aaf9",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-10T12:21:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/8a8f7bf5-ba19-4aec-b730-b09ebabb1edb",
+      "id": "8a8f7bf5-ba19-4aec-b730-b09ebabb1edb",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-10T09:35:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/17bce032-3794-4525-a5ee-e8438682efbe",
+      "id": "17bce032-3794-4525-a5ee-e8438682efbe",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-10T08:59:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/aa14cec5-77b8-4bfa-b520-6ba40038d135",
+      "id": "aa14cec5-77b8-4bfa-b520-6ba40038d135",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-10T05:51:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/69fe034b-83ba-4f7e-b557-41a802839ea7",
+      "id": "69fe034b-83ba-4f7e-b557-41a802839ea7",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-10T03:22:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/20a9f9d7-8d23-4426-bb1a-5fc62dfb69f9",
+      "id": "20a9f9d7-8d23-4426-bb1a-5fc62dfb69f9",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-10T00:20:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/c609c500-90e4-4650-a0a8-cf4ec4802bd5",
+      "id": "c609c500-90e4-4650-a0a8-cf4ec4802bd5",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-09T21:04:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/4d97b0a1-4939-48cb-bc16-6f63076213ec",
+      "id": "4d97b0a1-4939-48cb-bc16-6f63076213ec",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-09T18:06:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/8173e6ba-b948-44ef-bf6d-1b9ff5e071ea",
+      "id": "8173e6ba-b948-44ef-bf6d-1b9ff5e071ea",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-09T14:35:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/b88d592c-729c-4c12-9c93-f31e39e1342a",
+      "id": "b88d592c-729c-4c12-9c93-f31e39e1342a",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-09T12:09:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/1f3329bd-225c-4132-a84e-442122abb0b4",
+      "id": "1f3329bd-225c-4132-a84e-442122abb0b4",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-09T09:00:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/7fbff4d8-1fc5-4c15-b7ce-415665887836",
+      "id": "7fbff4d8-1fc5-4c15-b7ce-415665887836",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-09T05:38:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/aafad37d-f116-43cc-bd56-e52186125ddf",
+      "id": "aafad37d-f116-43cc-bd56-e52186125ddf",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-09T04:28:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/43723597-b31a-4cf0-91c6-17ee6cf5e0c5",
+      "id": "43723597-b31a-4cf0-91c6-17ee6cf5e0c5",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-09T00:10:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/51f508a5-f947-4f4f-963c-2dac85f827f7",
+      "id": "51f508a5-f947-4f4f-963c-2dac85f827f7",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-08T23:23:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/13ce806b-9d42-4462-91e2-5e2d95522433",
+      "id": "13ce806b-9d42-4462-91e2-5e2d95522433",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-08T20:46:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/5c60fe0e-551a-4d34-8aba-9636a5a12810",
+      "id": "5c60fe0e-551a-4d34-8aba-9636a5a12810",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-08T17:50:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/17e1b263-e98e-40f1-9ea5-34706de13200",
+      "id": "17e1b263-e98e-40f1-9ea5-34706de13200",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-08T16:12:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/7a5b9d69-57ab-476f-a664-5d6b1ec5ea07",
+      "id": "7a5b9d69-57ab-476f-a664-5d6b1ec5ea07",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-08T14:36:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/829ba26d-1462-43b6-ad6d-18f26f686dcd",
+      "id": "829ba26d-1462-43b6-ad6d-18f26f686dcd",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-08T12:14:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/8d6752e1-2cf5-41ef-a75b-6b4fe55a232b",
+      "id": "8d6752e1-2cf5-41ef-a75b-6b4fe55a232b",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-08T09:32:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/47d90c53-531e-43f2-b184-d840754ef312",
+      "id": "47d90c53-531e-43f2-b184-d840754ef312",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-08T05:56:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/f79dddcf-7f52-4b68-a54e-3f9b13805ab4",
+      "id": "f79dddcf-7f52-4b68-a54e-3f9b13805ab4",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-08T03:32:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/3865f1dc-24ab-45f2-af8c-d6cc65d92351",
+      "id": "3865f1dc-24ab-45f2-af8c-d6cc65d92351",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-08T00:09:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/87d68d83-5018-42cb-8f3b-4edba9c7e46d",
+      "id": "87d68d83-5018-42cb-8f3b-4edba9c7e46d",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-07T20:44:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/e5ae1408-f62f-4348-9b48-e541409655c5",
+      "id": "e5ae1408-f62f-4348-9b48-e541409655c5",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-07T17:50:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/4f032673-0b6c-46ef-b67a-76967faff118",
+      "id": "4f032673-0b6c-46ef-b67a-76967faff118",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-07T14:52:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/534ec934-785f-454f-9b6a-99c208e51a50",
+      "id": "534ec934-785f-454f-9b6a-99c208e51a50",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-07T11:30:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/3bf5d742-8b09-4cd9-86c1-9ce9a9928d85",
+      "id": "3bf5d742-8b09-4cd9-86c1-9ce9a9928d85",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-07T10:43:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/7518b41b-fdea-4656-bacc-e14bad27850e",
+      "id": "7518b41b-fdea-4656-bacc-e14bad27850e",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-07T10:13:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/d893c907-430b-4eaf-9ca4-34ac7a6d2bd8",
+      "id": "d893c907-430b-4eaf-9ca4-34ac7a6d2bd8",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-07T08:56:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/514ab6d5-5370-4bc7-9af3-578576d7baaa",
+      "id": "514ab6d5-5370-4bc7-9af3-578576d7baaa",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-07T05:32:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/b42d987d-e176-46a4-bca1-ab4bc4b78efb",
+      "id": "b42d987d-e176-46a4-bca1-ab4bc4b78efb",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-07T03:17:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/28b19a0b-c4fa-4eec-b46e-a8b32c24a982",
+      "id": "28b19a0b-c4fa-4eec-b46e-a8b32c24a982",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-06T23:59:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/cc8e83af-f4d1-462b-bb85-a1a949caf314",
+      "id": "cc8e83af-f4d1-462b-bb85-a1a949caf314",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-06T21:00:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/e8ba4f69-4985-4c80-b0bf-acfd83e07d5c",
+      "id": "e8ba4f69-4985-4c80-b0bf-acfd83e07d5c",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-06T18:01:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/773c9260-0370-4676-9712-dd80e6e5af21",
+      "id": "773c9260-0370-4676-9712-dd80e6e5af21",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-06T15:08:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/832a0b48-390a-4169-aa3c-e5a01fd80ae4",
+      "id": "832a0b48-390a-4169-aa3c-e5a01fd80ae4",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-06T15:05:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/6927e9e6-4a24-412a-ae63-43ee32ec8e71",
+      "id": "6927e9e6-4a24-412a-ae63-43ee32ec8e71",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-06T11:32:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/0f995730-e741-471d-948b-a0c67e38a0f3",
+      "id": "0f995730-e741-471d-948b-a0c67e38a0f3",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-06T11:30:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/eee3f6bf-8889-4897-b644-d1b80b7ec25b",
+      "id": "eee3f6bf-8889-4897-b644-d1b80b7ec25b",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-06T11:01:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/d34b82f0-3dc2-437b-8540-dcac155a44c3",
+      "id": "d34b82f0-3dc2-437b-8540-dcac155a44c3",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-06T09:03:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/a8e4da89-a862-4ad5-8fd8-1080fd210a1c",
+      "id": "a8e4da89-a862-4ad5-8fd8-1080fd210a1c",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-06T06:41:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    },
+    {
+      "@id": "https://api.weather.gov/products/b439f5d6-3b4f-4d42-b2a6-9a88ab8ee6e1",
+      "id": "b439f5d6-3b4f-4d42-b2a6-9a88ab8ee6e1",
+      "wmoCollectiveId": "FXUS61",
+      "issuingOffice": "KOKX",
+      "issuanceTime": "2023-02-06T05:41:00+00:00",
+      "productCode": "AFD",
+      "productName": "Area Forecast Discussion"
+    }
+  ]
+}
