@@ -132,8 +132,9 @@ class AreaForecastDiscussion:
         self.product_id = raw_afd['id']
         self.issuing_office = raw_afd['issuingOffice']
         self.issuance_time = datetime.strptime(raw_afd['issuanceTime'], "%Y-%m-%dT%H:%M:%S%z")
+        self.raw_text = raw_afd['productText']
         # separate out sections using '&&' to demarcate
-        raw_sections = [s.strip() for s in raw_afd['productText'].split("&&")]
+        raw_sections = [s.strip() for s in self.raw_text.split("&&")]
         # parse header and footer sections first to preserve ordering
         self.sections = [self.Section(raw_sections.pop(0), "header"),
                          self.Section(raw_sections.pop(), "footer")]
@@ -170,3 +171,6 @@ class AreaForecastDiscussion:
                 else:
                     self.name = None
                     self.body = raw_section.strip()
+            self.subsections: list = []
+            subsection_matches = re.findall(self.section_header_regex, self.body)
+            # TODO: recursively create subsections by searching for section_header_regex in body
