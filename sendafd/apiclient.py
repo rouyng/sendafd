@@ -134,9 +134,9 @@ class AreaForecastDiscussion:
         self.issuance_time = datetime.strptime(raw_afd['issuanceTime'], "%Y-%m-%dT%H:%M:%S%z")
         self.raw_text = raw_afd['productText']
         # remove extra newlines
-        cleaned_text = self.clean_newlines(self.raw_text)
+        self.cleaned_text = self.clean_newlines(self.raw_text)
         # separate out sections using '&&' to demarcate
-        raw_sections = [s.strip() for s in cleaned_text.split("&&")]
+        raw_sections = [s.strip() for s in self.cleaned_text.split("&&")]
         # parse header and footer sections first to preserve ordering
         self.sections = [self.Section(raw_sections.pop(0), "header"),
                          self.Section(raw_sections.pop(), "footer")]
