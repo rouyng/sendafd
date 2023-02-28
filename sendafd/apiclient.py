@@ -133,8 +133,10 @@ class AreaForecastDiscussion:
         self.issuing_office = raw_afd['issuingOffice']
         self.issuance_time = datetime.strptime(raw_afd['issuanceTime'], "%Y-%m-%dT%H:%M:%S%z")
         self.raw_text = raw_afd['productText']
+        # remove extra newlines
+        cleaned_text = self.clean_newlines(self.raw_text)
         # separate out sections using '&&' to demarcate
-        raw_sections = [s.strip() for s in self.raw_text.split("&&")]
+        raw_sections = [s.strip() for s in cleaned_text.split("&&")]
         # parse header and footer sections first to preserve ordering
         self.sections = [self.Section(raw_sections.pop(0), "header"),
                          self.Section(raw_sections.pop(), "footer")]
@@ -195,8 +197,18 @@ class AreaForecastDiscussion:
                 headerless_body = raw_subsection.lstrip(subsection_header_match[0])
                 self.body = headerless_body.strip()
 
-
-
+    @staticmethod
+    def clean_newlines(raw_text: str) -> str:
+        """Parse raw NWS AFD product text, removing newline characters used for layout
+        purposes in the original text and replacing double newlines used for paragraph
+        breaks with single newlines"""
+        paragraphs = raw_text.split("\n\n")
+        cleaned_paragraphs = []
+        for p in paragraphs:
+            removed_newlines = p.replace("\n", " ")
+            removed_doublespace = removed_newlines.replace("  ", " ")
+            cleaned_paragraphs.append(removed_doublespace)
+        return "\n".join(cleaned_paragraphs)
 
 
 
