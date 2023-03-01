@@ -5,6 +5,7 @@ or plaintext.
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 import logging
+from . import apiclient
 
 logger = logging.getLogger(__name__)
 
