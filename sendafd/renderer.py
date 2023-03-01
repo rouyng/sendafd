@@ -21,4 +21,7 @@ def render_email(afd: apiclient.AreaForecastDiscussion, template_path: str = Non
         return template.render() # TODO: pass variables to template
     else:
         logger.debug("No template path provided, generating plaintext email")
-        return afd.raw_text
+        subject_line = f"Subject: {afd.issuing_office} Forecast for " \
+                               f"{afd.issuance_time.strftime('%D %H:%M')}\n"
+        plaintext_email_body = subject_line + afd.raw_text
+        return plaintext_email_body
