@@ -65,10 +65,18 @@ try:
         elif raw_api_response['response'] is None and raw_api_response['error'] is None:
             logger.info("AFD has not changed, email will not be sent.")
         else:
-            pass
-            # TODO: parse raw API response into text ready to insert into template
-            # TODO: generate email from template and AFD text
-            # TODO: send email using SMTP server
+            # parse afd into AreaForecastDiscussion object
+            afd = apiclient.AreaForecastDiscussion(raw_api_response['response'])
+            # TODO: pass template path or plaintext flag from command line
+            email_body = renderer.render_email(afd)
+            # TODO: pass email parameters from command line
+            email = emailclient.send_email(smtp_server="foo",
+                                           smtp_username="foo",
+                                           smtp_pw="foo",
+                                           recipient="foo",
+                                           email_body="foo")
+            if not email:
+                logger.critical("Failed to send email")
         logger.info("sendAFD finished")
 except KeyboardInterrupt:
     logger.critical("Received keyboard interrupt, exiting!")
