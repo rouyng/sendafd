@@ -22,8 +22,19 @@ def main():
                                      prog="sendafd")
 
     # add command line arguments/options/flags
+    parser.add_argument('recipient',
+                        help="Destination email address."
+                        )
+    parser.add_argument('email_server',
+                        help="Domain or IP of SMTP server used to send outgoing emails."
+                        )
+    parser.add_argument('email_username',
+                        help="Username used when connecting to the SMTP server."
+                        )
+    parser.add_argument('email_password',
+                        help="Password used when connecting to the SMTP server."
+                        )
     parser.add_argument('region',
-                        nargs='?',
                         help="Three-letter region code for the Area Forecast Discussion."
                         )
     parser.add_argument('-l', '--locations',
@@ -34,6 +45,12 @@ def main():
                         help="Run in monitor mode, where a cache of each AFD is stored after sending. "
                              "Only send an email if the newest fetched AFD has changed. This is "
                              "intended to be run at a shorter interval, such as every hour.")
+    parser.add_argument('-p', '--plaintext',
+                        action='store_true',
+                        help="Send the email in plaintext, without any template.")
+    parser.add_argument('-t', '--template',
+                        nargs='?',
+                        default='templates/default_email_template.html')
     parser.add_argument('-v', '--verbose',
                         action='store_true',
                         help="Print debug messages.")
@@ -68,15 +85,16 @@ def main():
                 logger.info("AFD has not changed, email will not be sent.")
             else:
                 # parse afd into AreaForecastDiscussion object
-                afd = apiclient.AreaForecastDiscussion(raw_api_response['response'])
-                # TODO: pass template path or plaintext flag from command line
-                email_body = renderer.render_email(afd)
-                # TODO: pass email parameters from command line
-                email = emailclient.send_email(smtp_server="foo",
-                                               smtp_username="foo",
-                                               smtp_pw="foo",
-                                               recipient="foo",
-                                               email_body="foo")
+                parsed_afd = apiclient.AreaForecastDiscussion(raw_api_response['response'])
+                if args.plaintext:
+                    email_body = renderer.render_email(afd=parsed_afd)
+                else:
+                    email_body = renderer.render_email(afd=parsed_afd, template_path=args.template)
+                email = emailclient.send_email(smtp_server=args.email_server,
+                                               smtp_username=args.email_username,
+                                               smtp_pw=args.email_password,
+                                               recipient=args.recipient,
+                                               email_body=email_body)
                 if not email:
                     logger.critical("Failed to send email")
             logger.info("sendAFD finished")

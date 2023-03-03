@@ -21,7 +21,7 @@ positional arguments:
     recipient		Destination email address for the AFD
     email_server	Domain or IP of SMTP server used to send outgoing emails
     email_username	Username used when connecting to the SMTP server
-    email_password	Password used when connecting to the SMPT server
+    email_password	Password used when connecting to the SMTP server
     region      	Three-letter region code for the Area Forecast Discussion.
     
 options:
