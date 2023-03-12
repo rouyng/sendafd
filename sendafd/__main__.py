@@ -37,6 +37,9 @@ def main():
     parser.add_argument('region',
                         help="Three-letter region code for the Area Forecast Discussion."
                         )
+    parser.add_argument('-d', '--dry-run',
+                        action='store_true',
+                        help="Do not connect to SMTP server, just print email to stdout")
     parser.add_argument('-i', '--ignore-region-validation',
                         action='store_true',
                         help="Do not validate supplied region code and attempt to fetch AFD from "
@@ -52,6 +55,10 @@ def main():
     parser.add_argument('-p', '--plaintext',
                         action='store_true',
                         help="Send the email in plaintext, without any template.")
+    parser.add_argument('-s', '--sender-address',
+                        nargs='?',
+                        default="",
+                        help="Sender's email address, if different from username")
     parser.add_argument('-t', '--template',
                         nargs='?',
                         default='templates/default_email_template.html')
@@ -93,15 +100,24 @@ def main():
                 # parse afd into AreaForecastDiscussion object
                 parsed_afd = apiclient.AreaForecastDiscussion(raw_api_response['response'])
                 if args.plaintext:
-                    email_body = renderer.render_email(afd=parsed_afd)
+                    template = None
                 else:
-                    email_body = renderer.render_email(afd=parsed_afd, template_path=args.template)
-                email = emailclient.send_email(smtp_server=args.email_server,
+                    template = args.template
+                if args.sender_address:
+                    sender_email = args.sender_address
+                else:
+                    sender_email = args.email_username
+                email = renderer.build_email(afd=parsed_afd,
+                                                  sender_email=sender_email,
+                                                  recipient_email=args.recipient,
+                                                  template_path=template
+                                                  )
+                email_result = emailclient.send_email(smtp_server=args.email_server,
                                                smtp_username=args.email_username,
                                                smtp_pw=args.email_password,
-                                               recipient=args.recipient,
-                                               email_body=email_body)
-                if not email:
+                                               email=email,
+                                                dry_run=args.dry_run)
+                if not email_result:
                     logger.critical("Failed to send email")
             logger.info("sendAFD finished")
     except KeyboardInterrupt:

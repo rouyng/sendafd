@@ -2,6 +2,7 @@
 Send an email via a SMTP server. Takes html or plain text from renderer.py as input.
 """
 
+from email.message import EmailMessage
 import smtplib
 import logging
 
@@ -10,10 +11,14 @@ logger = logging.getLogger(__name__)
 def send_email(smtp_server: str,
                smtp_username: str,
                smtp_pw: str,
-               recipient: str,
-               email_body: str,
-               smtp_port: int = 587):
+               email: EmailMessage,
+               smtp_port: int = 587,
+               dry_run: bool = False):
     """Connect to SMTP server and send email to the destination address"""
+    if dry_run:
+        logger.info("Dry run enabled, printing email to stdout")
+        print(email.as_string())
+        return True
     try:
         logger.debug(f"Connecting to SMTP server at {smtp_server}:{smtp_port}")
         smtp_connection  = smtplib.SMTP(smtp_server, smtp_port, timeout=10)
@@ -37,11 +42,11 @@ def send_email(smtp_server: str,
     except RuntimeError:
         logger.critical("SSL/TLS support not available to your Python interpreter, could not send email.")
         return False
-    logger.debug(f"Sending email to {recipient}")
-    sent_status = smtp_connection.sendmail(smtp_username, recipient, email_body)
+    logger.debug(f"Sending email to {email['To']}")
+    sent_status = smtp_connection.send_message(email)
     if len(sent_status) > 0:
         logger.critical(f"Email could not be delivered: {sent_status}")
         return False
     else:
-        logger.debug(f"Email sent to {recipient}")
+        logger.debug(f"Email sent to {email['To']}")
         return True
