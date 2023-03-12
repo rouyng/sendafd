@@ -22,7 +22,7 @@ def get_region_codes() -> dict:
     api_response.raise_for_status()
     codes_with_description = api_response.json()['locations']
     if len(codes_with_description) == 0:
-        logger.critical(f"Request was successful, but zero location codes were received."
+        logger.error(f"Request was successful, but zero location codes were received."
                         f"\n Response headers: {api_response.headers}")
         raise ValueError
     else:
@@ -34,60 +34,63 @@ def print_region_codes(codes: dict):
     for c, d in codes.items():
         print(c, d)
 
-def fetch_afd(region: str, monitor: bool=False) -> dict:
+def fetch_afd(region: str, monitor: bool=False, ignore_region_validation: bool=True) -> dict:
     """
     Query the NWS API for the area forecast discussions for the supplied region code, then return
     the API response with the latest AFD.
     """
     # check supplied region code is valid by checking against valid codes provided by the NWS API
-    try:
-        valid_codes = get_region_codes()
-    except requests.HTTPError:
-        logger.exception("HTTP error fetching list of region codes")
-        return {'response': None, 'error': "HTTP error fetching list of region codes"}
     region_lc = region.lower()
-    if region_lc not in [code.lower() for code in valid_codes.keys()]:
-        logger.critical(f"'{region}' is not a valid region code. Please use one of the following:")
-        print_region_codes(valid_codes)
-        return {'response': None, 'error': "Invalid region code"}
-    else:
-        logger.debug(f"Getting list of published AFDs for region {region}")
-        # get the list of recently issued AFDs for the supplied region code
-        afd_list_response = requests.get(f"https://api.weather.gov/products/types/afd/locations/{region_lc}")
+    if not ignore_region_validation:
         try:
-            afd_list_response.raise_for_status()
+            valid_codes = get_region_codes()
+            if region_lc not in [code.lower() for code in valid_codes.keys()]:
+                logger.critical(
+                    f"'{region}' is not a valid region code. Please use one of the following:")
+                print_region_codes(valid_codes)
+                return {'response': None, 'error': "Invalid region code"}
         except requests.HTTPError:
-            logger.exception("HTTP error fetching list of AFD products")
-            return {'response': None, 'error': "HTTP error fetching list of AFD products"}
+            logger.exception("HTTP error fetching list of region codes")
+            return {'response': None, 'error': "HTTP error fetching list of region codes"}
+        except ValueError:
+            return {'response': None, 'error': "Could not validate region code"}
+    logger.debug(f"Getting list of published AFDs for region {region}")
+    # get the list of recently issued AFDs for the supplied region code
+    afd_list_response = requests.get(f"https://api.weather.gov/products/types/afd/locations/{region_lc}")
+    try:
+        afd_list_response.raise_for_status()
+    except requests.HTTPError:
+        logger.exception("HTTP error fetching list of AFD products")
+        return {'response': None, 'error': "HTTP error fetching list of AFD products"}
+    try:
+        # from the list, grab the product ID of the latest issued AFD
+        logger.debug(f"Returned {len(afd_list_response.json()['@graph'])} AFDs")
+        latest_product_id = afd_list_response.json()['@graph'][0]['id']
+        logger.debug(f"Latest AFD product ID: {latest_product_id}, issued {afd_list_response.json()['@graph'][0]['issuanceTime']}")
+    except KeyError:
+        logger.exception("Unexpected API response structure")
+        return {'response': None, 'error': "Unexpected API response structure"}
+    if monitor:
+        cached_afd = read_afd_cache(cache_path=f"cache_{region_lc}.json")
         try:
-            # from the list, grab the product ID of the latest issued AFD
-            logger.debug(f"Returned {len(afd_list_response.json()['@graph'])} AFDs")
-            latest_product_id = afd_list_response.json()['@graph'][0]['id']
-            logger.debug(f"Latest AFD product ID: {latest_product_id}, issued {afd_list_response.json()['@graph'][0]['issuanceTime']}")
+            cached_id = cached_afd['id']
         except KeyError:
-            logger.exception("Unexpected API response structure")
-            return {'response': None, 'error': "Unexpected API response structure"}
+            cached_id = None
+        if latest_product_id == cached_id:
+            logger.debug(f"Latest product had same id ({latest_product_id}) as cached product ({cached_id}), ignoring.")
+            return {'response': None, 'error': None}
+        else:
+            logger.debug(
+                f"Latest product had different id ({latest_product_id}) than cached product ({cached_id}), fetching latest product...")
+    afd_product_response = requests.get(f"https://api.weather.gov/products/{latest_product_id}")
+    try:
+        afd_product_response.raise_for_status()
         if monitor:
-            cached_afd = read_afd_cache(cache_path=f"cache_{region_lc}.json")
-            try:
-                cached_id = cached_afd['id']
-            except KeyError:
-                cached_id = None
-            if latest_product_id == cached_id:
-                logger.debug(f"Latest product had same id ({latest_product_id}) as cached product ({cached_id}), ignoring.")
-                return {'response': None, 'error': None}
-            else:
-                logger.debug(
-                    f"Latest product had different id ({latest_product_id}) than cached product ({cached_id}), fetching latest product...")
-        afd_product_response = requests.get(f"https://api.weather.gov/products/{latest_product_id}")
-        try:
-            afd_product_response.raise_for_status()
-            if monitor:
-                create_afd_cache(afd_product_response.json(), cache_path=f"cache_{region_lc}.json")
-            return {'response': afd_product_response.json(), 'error': None}
-        except requests.HTTPError:
-            logger.exception("HTTP error fetching AFD product")
-            return {'response': None, 'error': "HTTP error fetching AFD product"}
+            create_afd_cache(afd_product_response.json(), cache_path=f"cache_{region_lc}.json")
+        return {'response': afd_product_response.json(), 'error': None}
+    except requests.HTTPError:
+        logger.exception("HTTP error fetching AFD product")
+        return {'response': None, 'error': "HTTP error fetching AFD product"}
 
 def create_afd_cache(afd_raw: dict, cache_path: str = "cache.json"):
     """

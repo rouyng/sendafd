@@ -37,6 +37,10 @@ def main():
     parser.add_argument('region',
                         help="Three-letter region code for the Area Forecast Discussion."
                         )
+    parser.add_argument('-i', '--ignore-region-validation',
+                        action='store_true',
+                        help="Do not validate supplied region code and attempt to fetch AFD from "
+                             "NWS anyway.")
     parser.add_argument('-l', '--locations',
                         action='store_true',
                         help="Print a list of valid region codes with descriptions and exit.")
@@ -78,7 +82,9 @@ def main():
                 logger.info("Starting sendAFD in monitor mode")
             else:
                 logger.info("Starting sendAFD")
-            raw_api_response = apiclient.fetch_afd(region=args.region, monitor=args.monitor)
+            raw_api_response = apiclient.fetch_afd(region=args.region,
+                                                   monitor=args.monitor,
+                                                   ignore_region_validation=args.ignore_region_validation)
             if raw_api_response['error'] is not None:
                 logger.critical(f"Error fetching data from NWS API: {raw_api_response['error']}")
             elif raw_api_response['response'] is None and raw_api_response['error'] is None:
