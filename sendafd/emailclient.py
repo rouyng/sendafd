@@ -23,10 +23,19 @@ def send_email(smtp_server: str,
         return False
     try:
         logger.debug(f"Logging in to SMTP server as {smtp_username}")
-        smtp_connection.login(smtp_username, smtp_pw)
+        smtp_connection.starttls()
+        smtp_connection.ehlo()
+        smtp_connection.login(user=smtp_username,
+                              password=smtp_pw)
         logger.debug("Login appears successful")
     except smtplib.SMTPAuthenticationError:
-        logger.critical("Error logging in to SMTP server, check username and password")
+        logger.critical("Error logging in to SMTP server, check username and password", exc_info=True)
+        return False
+    except (smtplib.SMTPHeloError, smtplib.SMTPNotSupportedError):
+        logger.critical("Error connecting using STARTTLS, email server may not support STARTTLS.", exc_info=True)
+        return False
+    except RuntimeError:
+        logger.critical("SSL/TLS support not available to your Python interpreter, could not send email.")
         return False
     logger.debug(f"Sending email to {recipient}")
     sent_status = smtp_connection.sendmail(smtp_username, recipient, email_body)
