@@ -28,6 +28,8 @@ def send_email(smtp_server: str,
         return False
     try:
         logger.debug(f"Logging in to SMTP server as {smtp_username}")
+        masked_pw = smtp_pw[0] + "*"*(len(smtp_pw)-2) + smtp_pw[-1]
+        logger.debug(f"Password: {masked_pw}")
         smtp_connection.starttls()
         smtp_connection.ehlo()
         smtp_connection.login(user=smtp_username,
