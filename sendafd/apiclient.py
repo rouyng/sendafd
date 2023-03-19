@@ -210,7 +210,7 @@ class AreaForecastDiscussion:
         for p in paragraphs:
             removed_newlines = p.replace("\n", " ")
             removed_doublespace = removed_newlines.replace("  ", " ")
-            cleaned_paragraphs.append(removed_doublespace)
+            cleaned_paragraphs.append(removed_doublespace.strip())
         return "\n".join(cleaned_paragraphs)
 
 

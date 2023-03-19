@@ -12,13 +12,9 @@ def send_email(smtp_server: str,
                smtp_username: str,
                smtp_pw: str,
                email: EmailMessage,
-               smtp_port: int = 587,
-               dry_run: bool = False):
+               smtp_port: int = 587):
     """Connect to SMTP server and send email to the destination address"""
-    if dry_run:
-        logger.info("Dry run enabled, printing email to stdout")
-        print(email.as_string())
-        return True
+
     try:
         logger.debug(f"Connecting to SMTP server at {smtp_server}:{smtp_port}")
         smtp_connection  = smtplib.SMTP(smtp_server, smtp_port, timeout=10)

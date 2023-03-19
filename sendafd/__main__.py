@@ -40,6 +40,10 @@ def main():
     parser.add_argument('-d', '--dry-run',
                         action='store_true',
                         help="Do not connect to SMTP server, just print email to stdout")
+    parser.add_argument('-f', '--file',
+                        action='store',
+                        nargs=1,
+                        help="Do not connect to SMTP server, just output rendered email to the specified path. Default: output.html")
     parser.add_argument('-i', '--ignore-region-validation',
                         action='store_true',
                         help="Do not validate supplied region code and attempt to fetch AFD from "
@@ -61,7 +65,8 @@ def main():
                         help="Sender's email address, if different from username")
     parser.add_argument('-t', '--template',
                         nargs='?',
-                        default='templates/default_email_template.html')
+                        default='default_email_template.html',
+                        help="Filename of template to use when rendering email. Searches in \'templates\' subdirectory.")
     parser.add_argument('-v', '--verbose',
                         action='store_true',
                         help="Print debug messages.")
@@ -112,13 +117,21 @@ def main():
                                                   recipient_email=args.recipient,
                                                   template_path=template
                                                   )
-                email_result = emailclient.send_email(smtp_server=args.email_server,
+                if args.file:
+                    logger.info(f"File output enabled, printing email to {args.file}")
+                    with open(args.file[0], 'w', encoding='utf-8') as f:
+                            f.write(email.as_string())
+                if args.dry_run:
+                    logger.info("Dry run enabled, printing email to stdout")
+                    print(email.as_string())
+                else:
+                    email_result = emailclient.send_email(smtp_server=args.email_server,
                                                smtp_username=args.email_username,
                                                smtp_pw=args.email_password,
                                                email=email,
-                                                dry_run=args.dry_run)
-                if not email_result:
-                    logger.critical("Failed to send email")
+                                               )
+                    if not email_result:
+                        logger.critical("Failed to send email")
             logger.info("sendAFD finished")
     except KeyboardInterrupt:
         logger.critical("Received keyboard interrupt, exiting!")

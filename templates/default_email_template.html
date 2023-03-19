@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+ <h1>Area Forecast Discussion for {{ afd.issuing_office }}</h1>
+ {% for section in afd.sections %}
+     {% if section.name not in ("header", "footer") %}
+         <h2>{{ section.name }}</h2>
+         <p>{{ section.body }}</p>
+         {% if section.subsections %}
+             {% for subsection in section.subsections %}
+                 <h1>{{ subsection.name }}</h1>
+                 <p>{{ subsection.body }}</p>
+             {% endfor %}
+         {% endif %}
+     {% endif %}
+ {% endfor %}
+</body>
+</html>
