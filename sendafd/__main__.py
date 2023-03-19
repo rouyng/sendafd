@@ -1,5 +1,7 @@
 import argparse
 import logging
+import sys
+
 from requests import HTTPError
 
 from . import apiclient, emailclient, renderer
@@ -17,9 +19,28 @@ logger.addHandler(handler)
 def main():
     """Main program functionality, called if the sendafd package is executed directly"""
     # initialize command line argument parser
+    pre_parser = argparse.ArgumentParser(add_help=False)
+    pre_parser.add_argument('-l', '--locations',
+                        required=False,
+                        action='store_true',
+                        help="Print a list of valid region codes with descriptions and exit.")
+    pre_args, _ = pre_parser.parse_known_args()
+
+    if pre_args.locations:
+        try:
+            apiclient.print_region_codes(apiclient.get_region_codes())
+        except HTTPError:
+            logger.critical("Error connecting to the NWS API", exc_info=True)
+            sys.exit(1)
+        except (ValueError, KeyError):
+            logger.critical("Error parsing received location codes", exc_info=True)
+            sys.exit(1)
+        else:
+            sys.exit()
+
     parser = argparse.ArgumentParser(description="sendAFD emails the NWS Area Forecast Discussion for "
                                                  "a chosen area. For more details, see README.md",
-                                     prog="sendafd")
+                                     prog="sendafd", parents=[pre_parser])
 
     # add command line arguments/options/flags
     parser.add_argument('recipient',
@@ -48,9 +69,7 @@ def main():
                         action='store_true',
                         help="Do not validate supplied region code and attempt to fetch AFD from "
                              "NWS anyway.")
-    parser.add_argument('-l', '--locations',
-                        action='store_true',
-                        help="Print a list of valid region codes with descriptions and exit.")
+
     parser.add_argument('-m', '--monitor',
                         action='store_true',
                         help="Run in monitor mode, where a cache of each AFD is stored after sending. "
@@ -82,57 +101,49 @@ def main():
         logger.setLevel("INFO")
 
     try:
-        if args.locations:
-            try:
-                apiclient.print_region_codes(apiclient.get_region_codes())
-            except HTTPError:
-                logger.critical("Error connecting to the NWS API", exc_info=True)
-            except (ValueError, KeyError):
-                logger.critical("Error parsing received location codes", exc_info=True)
+        if args.monitor:
+            logger.info("Starting sendAFD in monitor mode")
         else:
-            if args.monitor:
-                logger.info("Starting sendAFD in monitor mode")
+            logger.info("Starting sendAFD")
+        raw_api_response = apiclient.fetch_afd(region=args.region,
+                                               monitor=args.monitor,
+                                               ignore_region_validation=args.ignore_region_validation)
+        if raw_api_response['error'] is not None:
+            logger.critical(f"Error fetching data from NWS API: {raw_api_response['error']}")
+        elif raw_api_response['response'] is None and raw_api_response['error'] is None:
+            logger.info("AFD has not changed, email will not be sent.")
+        else:
+            # parse afd into AreaForecastDiscussion object
+            parsed_afd = apiclient.AreaForecastDiscussion(raw_api_response['response'])
+            if args.plaintext:
+                template = None
             else:
-                logger.info("Starting sendAFD")
-            raw_api_response = apiclient.fetch_afd(region=args.region,
-                                                   monitor=args.monitor,
-                                                   ignore_region_validation=args.ignore_region_validation)
-            if raw_api_response['error'] is not None:
-                logger.critical(f"Error fetching data from NWS API: {raw_api_response['error']}")
-            elif raw_api_response['response'] is None and raw_api_response['error'] is None:
-                logger.info("AFD has not changed, email will not be sent.")
+                template = args.template
+            if args.sender_address:
+                sender_email = args.sender_address
             else:
-                # parse afd into AreaForecastDiscussion object
-                parsed_afd = apiclient.AreaForecastDiscussion(raw_api_response['response'])
-                if args.plaintext:
-                    template = None
-                else:
-                    template = args.template
-                if args.sender_address:
-                    sender_email = args.sender_address
-                else:
-                    sender_email = args.email_username
-                email = renderer.build_email(afd=parsed_afd,
-                                                  sender_email=sender_email,
-                                                  recipient_email=args.recipient,
-                                                  template_path=template
-                                                  )
-                if args.file:
-                    logger.info(f"File output enabled, printing email to {args.file}")
-                    with open(args.file[0], 'w', encoding='utf-8') as f:
-                            f.write(email.as_string())
-                if args.dry_run:
-                    logger.info("Dry run enabled, printing email to stdout")
-                    print(email.as_string())
-                else:
-                    email_result = emailclient.send_email(smtp_server=args.email_server,
-                                               smtp_username=args.email_username,
-                                               smtp_pw=args.email_password,
-                                               email=email,
-                                               )
-                    if not email_result:
-                        logger.critical("Failed to send email")
-            logger.info("sendAFD finished")
+                sender_email = args.email_username
+            email = renderer.build_email(afd=parsed_afd,
+                                              sender_email=sender_email,
+                                              recipient_email=args.recipient,
+                                              template_path=template
+                                              )
+            if args.file:
+                logger.info(f"File output enabled, printing email to {args.file}")
+                with open(args.file[0], 'w', encoding='utf-8') as f:
+                        f.write(email.as_string())
+            if args.dry_run:
+                logger.info("Dry run enabled, printing email to stdout")
+                print(email.as_string())
+            else:
+                email_result = emailclient.send_email(smtp_server=args.email_server,
+                                           smtp_username=args.email_username,
+                                           smtp_pw=args.email_password,
+                                           email=email,
+                                           )
+                if not email_result:
+                    logger.critical("Failed to send email")
+        logger.info("sendAFD finished")
     except KeyboardInterrupt:
         logger.critical("Received keyboard interrupt, exiting!")
 
