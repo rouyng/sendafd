@@ -136,6 +136,7 @@ class AreaForecastDiscussion:
         self.issuing_office = raw_afd['issuingOffice']
         self.issuance_time = datetime.strptime(raw_afd['issuanceTime'], "%Y-%m-%dT%H:%M:%S%z")
         self.raw_text = raw_afd['productText']
+        self._unnamed_counter = 1
         # remove extra newlines
         self.cleaned_text = self.clean_newlines(self.raw_text)
         # separate out sections using '&&' to demarcate
@@ -151,18 +152,22 @@ class AreaForecastDiscussion:
         self.footer = self.sections[-1].body
         for s in self.sections[1:-1]:
             name_lc = s.name.lower()
-            translate_table = name_lc.maketrans({' ' : '_',
-                                                 '/': '_',
-                                                 '-': '_',
-                                                 '(': '',
-                                                 ')': ''})
-            attr_name = name_lc.translate(translate_table)
-            setattr(self, attr_name, s.body)
+            # remove non-alphabet characters from section name
+            sanitized_name_regex = re.compile('[^a-zA-Z]')
+            attr_name = sanitized_name_regex.sub('', name_lc)
+            try:
+                getattr(self, attr_name)
+                attr_name += str(self._unnamed_counter)
+                setattr(self, attr_name, s.body)
+                self._unnamed_counter += 1
+            except AttributeError:
+                setattr(self, attr_name, s.body)
+
 
 
 
     class Section:
-        section_header_regex = re.compile("\.(.*?)\.\.\. ")
+        section_header_regex = re.compile("\.(.*?)\.\.\.")
         def __init__(self, raw_section: str, name: str=None):
             if name is not None:
                 self.name =  name
