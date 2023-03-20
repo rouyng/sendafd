@@ -162,7 +162,7 @@ class AreaForecastDiscussion:
 
 
     class Section:
-        section_header_regex = re.compile("\.(.+)\.\.\.")
+        section_header_regex = re.compile("\.(.*?)\.\.\. ")
         def __init__(self, raw_section: str, name: str=None):
             if name is not None:
                 self.name =  name
@@ -174,14 +174,14 @@ class AreaForecastDiscussion:
                     headerless_body = raw_section.lstrip(section_header_match[0])
                     self.body = headerless_body.strip()
                 else:
-                    self.name = None
+                    self.name = 'unnamed'
                     self.body = raw_section.strip()
             self.subsections: list = []
             subsection_match = re.search(self.section_header_regex, self.body)
             if subsection_match:
                 subsections_raw = self.body[subsection_match.start():]
                 self.body = self.body[:subsection_match.start()]
-                ungrouped_header_regex = re.compile("\..+\.\.\.")
+                ungrouped_header_regex = re.compile("\..*?\.\.\.")
                 subsection_match = re.findall(ungrouped_header_regex, subsections_raw)
                 for n, match in enumerate(subsection_match):
                     subsection_start = subsections_raw.find(match)
@@ -193,7 +193,7 @@ class AreaForecastDiscussion:
                         self.subsections.append(self.Subsection(subsections_raw[subsection_start:]))
 
         class Subsection:
-            subsection_header_regex = re.compile("\.(.+)\.\.\.")
+            subsection_header_regex = re.compile("\.(.*?)\.\.\.")
             def __init__(self, raw_subsection: str):
                 subsection_header_match = re.match(self.subsection_header_regex, raw_subsection)
                 self.name = subsection_header_match[1].title().strip()
