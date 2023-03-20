@@ -39,5 +39,5 @@ def render_email_body(parsed_afd: apiclient.AreaForecastDiscussion, template_pat
     """Render email body as plaintext or html using specified jinja template"""
     template = env.get_template(template_path)
     logger.debug(f"Rendering email body from template at: {template_path}")
-    return template.render(afd=parsed_afd) # TODO: pass variables to template
+    return template.render(afd=parsed_afd)
 
