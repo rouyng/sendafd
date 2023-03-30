@@ -167,7 +167,7 @@ class AreaForecastDiscussion:
 
 
     class Section:
-        section_header_regex = re.compile("\.(.*?)\.\.\.")
+        section_header_regex = re.compile("\.(\S[^\\n]*?)\.\.\.")
         def __init__(self, raw_section: str, name: str=None):
             # keep the raw section text for debugging purposes, even though it probably won't be
             #  used to generate emails
@@ -203,7 +203,8 @@ class AreaForecastDiscussion:
                         self.subsections.append(self.Subsection(subsections_raw[subsection_start:]))
 
         class Subsection:
-            subsection_header_regex = re.compile("\.(.*?)\.\.\.")
+            # (?!(\.)\1{1,2})\.(\S[^\\n]*?)\.\.\.
+            subsection_header_regex = re.compile("\.(\S[^\\n]*?)\.\.\.")
             def __init__(self, raw_subsection: str):
                 self.raw_subsection = raw_subsection
                 subsection_header_match = re.match(self.subsection_header_regex, self.raw_subsection)
