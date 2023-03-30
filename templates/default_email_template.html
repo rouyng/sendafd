@@ -1,12 +1,25 @@
+{# Default template with examples of how to render the afd object passed to the templating engine #}
+{# This may require modification for different regions, as meteorologists in different regions may vary in how they
+format the Area Forecast Discussion.#}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Area Forecast Discussion for {{ afd.issuing_office }}</title>
 </head>
 <body>
  <h1>Area Forecast Discussion for {{ afd.issuing_office }}</h1>
  {% for section in afd.sections %}
+    {# The header section may contain a subsection with an update or synopsis, so render only that subsection #}
+     {%  if section.name == "header" %}
+         {% if section.subsections %}
+             {% for subsection in section.subsections %}
+                 <h1>{{ subsection.name }}</h1>
+                 <p>{{ subsection.body }}</p>
+             {% endfor %}
+         {% endif %}
+     {% endif %}
+     {# Render the rest of the sections in the AFD that aren't headers or footers, along with any subsections #}
      {% if section.name not in ("header", "footer") %}
          <h2>{{ section.name }}</h2>
          <p>{{ section.body }}</p>
@@ -18,5 +31,8 @@
          {% endif %}
      {% endif %}
  {% endfor %}
+<footer>
+    <p><i>Product ID: <a href="https://api.weather.gov/products/{{ afd.product_id }}">{{ afd.product_id }}</a></i></p>
+</footer>
 </body>
 </html>
