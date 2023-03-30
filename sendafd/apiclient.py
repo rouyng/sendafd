@@ -169,18 +169,23 @@ class AreaForecastDiscussion:
     class Section:
         section_header_regex = re.compile("\.(.*?)\.\.\.")
         def __init__(self, raw_section: str, name: str=None):
+            # keep the raw section text for debugging purposes, even though it probably won't be
+            #  used to generate emails
+            self.raw_section = raw_section
             if name is not None:
+                # this case is used for headers and footers, where there is no section header
+                #  containing a name.
                 self.name =  name
-                self.body = raw_section.strip()
+                self.body = self.raw_section.strip()
             else:
-                section_header_match = re.match(self.section_header_regex, raw_section)
+                section_header_match = re.match(self.section_header_regex, self.raw_section)
                 if section_header_match:
                     self.name = section_header_match[1].title().strip()
-                    headerless_body = raw_section.lstrip(section_header_match[0])
+                    headerless_body = self.raw_section.removeprefix(section_header_match[0])
                     self.body = headerless_body.strip()
                 else:
                     self.name = 'unnamed'
-                    self.body = raw_section.strip()
+                    self.body = self.raw_section.strip()
             self.subsections: list = []
             subsection_match = re.search(self.section_header_regex, self.body)
             if subsection_match:
@@ -200,9 +205,10 @@ class AreaForecastDiscussion:
         class Subsection:
             subsection_header_regex = re.compile("\.(.*?)\.\.\.")
             def __init__(self, raw_subsection: str):
-                subsection_header_match = re.match(self.subsection_header_regex, raw_subsection)
+                self.raw_subsection = raw_subsection
+                subsection_header_match = re.match(self.subsection_header_regex, self.raw_subsection)
                 self.name = subsection_header_match[1].title().strip()
-                headerless_body = raw_subsection.lstrip(subsection_header_match[0])
+                headerless_body = self.raw_subsection.removeprefix(subsection_header_match[0])
                 self.body = headerless_body.strip()
 
     @staticmethod
