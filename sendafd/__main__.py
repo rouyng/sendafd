@@ -64,12 +64,11 @@ def main():
     parser.add_argument('-f', '--file',
                         action='store',
                         nargs=1,
-                        help="Do not connect to SMTP server, just output rendered email to the specified path. Default: output.html")
+                        help="Do not connect to SMTP server, just output rendered email to the specified path. Default: output.msg")
     parser.add_argument('-i', '--ignore-region-validation',
                         action='store_true',
                         help="Do not validate supplied region code and attempt to fetch AFD from "
                              "NWS anyway.")
-
     parser.add_argument('-m', '--monitor',
                         action='store_true',
                         help="Run in monitor mode, where a cache of each AFD is stored after sending. "
@@ -77,15 +76,15 @@ def main():
                              "intended to be run at a shorter interval, such as every hour.")
     parser.add_argument('-p', '--plaintext',
                         action='store_true',
-                        help="Send the email in plaintext, without any template.")
+                        help="Send the email in plaintext as formatted by the NWS, without any template.")
     parser.add_argument('-s', '--sender-address',
                         nargs='?',
                         default="",
-                        help="Sender's email address, if different from username")
+                        help="Sender's email address, if different from email_username.")
     parser.add_argument('-t', '--template',
                         nargs='?',
                         default='default_email_template.html',
-                        help="Filename of template to use when rendering email. Searches in \'templates\' subdirectory.")
+                        help="Filename of template to use when rendering email. Searches in \'templates\' subdirectory. Defaults to 'default_email_template.html'")
     parser.add_argument('-v', '--verbose',
                         action='store_true',
                         help="Print debug messages.")

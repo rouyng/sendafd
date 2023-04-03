@@ -11,6 +11,7 @@ from . import apiclient
 logger = logging.getLogger(__name__)
 
 # create Jinja Environment
+# TODO: handle absolute filesystem paths to templates but default to searching in templates subdirectory
 env = Environment(
     loader=FileSystemLoader('templates/'),
     autoescape=select_autoescape()
