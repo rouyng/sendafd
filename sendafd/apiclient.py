@@ -150,20 +150,6 @@ class AreaForecastDiscussion:
         # initialize named sections from section list
         self.header = self.sections[0].body
         self.footer = self.sections[-1].body
-        for s in self.sections[1:-1]:
-            name_lc = s.name.lower()
-            # remove non-alphabet characters from section name
-            sanitized_name_regex = re.compile('[^a-zA-Z]')
-            attr_name = sanitized_name_regex.sub('', name_lc)
-            try:
-                getattr(self, attr_name)
-                attr_name += str(self._unnamed_counter)
-                setattr(self, attr_name, s.body)
-                self._unnamed_counter += 1
-            except AttributeError:
-                setattr(self, attr_name, s.body)
-
-
 
 
     class Section:
