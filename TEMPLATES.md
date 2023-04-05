@@ -9,17 +9,23 @@ sendAFD uses the [jinja](https://jinja.palletsprojects.com/en/3.1.x/) templating
 
 ### afd object
 An afd object is passed to the template when it is rendered. The following public attributes are therefore available to use in the template:
+
 #### afd.product_id
 The unique NWS product id assigned to the Area Forecast Discussion. This can be used for debugging purposes or to fetch the raw AFD directly from the NWS API.
+
 #### afd.issuing_office
 Four letter code representing the NWS office that issued the AFD
+
 #### afd.issuance_time
 datetime object representing the date and time when the AFD was issued by NWS.
+
 #### afd.raw_text
 Raw text form of the AFD, as formatted by the NWS
+
 #### afd.cleaned_text
 Raw text without newlines in paragraphs so the email has a max line length of 78 characters (per RFC 5322), instead of
 the 68 character line length used by the NWS. 
+
 #### afd.sections
 List of AreaForecastDiscussion.Section objects, representing sections in the original AFD demarcated by "&&" characters. See below for attributes of each object in this list
 
@@ -27,13 +33,13 @@ List of AreaForecastDiscussion.Section objects, representing sections in the ori
 Name of the section parsed by searching for headers demarcated like ".Header name..."
 
 #### afd.Section.body
-Body text of the section, with section header and any subsections removed. 
+Body text of the section, with section header and any subsections removed.
 
 #### afd.Section.raw_section
 Raw text of the section, including any header and subsections
 
 #### afd.Section.subsections
-List of subsections demarcated by the presence of additional headers within each section. 
+List of subsections demarcated by the presence of additional headers within each section.
 
 #### afd.Section.Subsection.name
 Name of the subsection parsed by searching for headers demarcated like ".Header name..."
@@ -43,6 +49,13 @@ Body text of the section, with subsection header removed.
 
 #### afd.Section.Subsection.raw_subsection
 Raw text of the section, including any header.
+
+#### afd.header
+Section object that duplicated the first section in afd.sections
+
+#### afd.footer
+Section object that duplicated the last section in afd.sections
+
 
 ## Template locations
 sendAFD searches for templates in the `templates` subdirectory. Any custom templates you wish to use should be located here.
