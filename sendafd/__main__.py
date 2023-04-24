@@ -43,6 +43,8 @@ def main():
                                      prog="sendafd", parents=[pre_parser])
 
     # add command line arguments/options/flags
+    # TODO: refactor command line arguments to not require placeholder email-related arguments
+    #  when run with -w
     parser.add_argument('recipient',
                         help="Destination email address."
                         )
