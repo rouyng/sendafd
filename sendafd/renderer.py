@@ -6,6 +6,7 @@ or plaintext.
 from email.message import EmailMessage
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import logging
+import json
 from . import apiclient
 
 logger = logging.getLogger(__name__)
@@ -42,3 +43,8 @@ def render_email_body(parsed_afd: apiclient.AreaForecastDiscussion, template_pat
     logger.debug(f"Rendering email body from template at: {template_path}")
     return template.render(afd=parsed_afd)
 
+def render_web(parsed_afd: apiclient.AreaForecastDiscussion, afd_json: dict, template_path: str) -> str:
+    """Render html using specified jinja template"""
+    template = env.get_template(template_path)
+    logger.debug(f"Rendering email body from template at: {template_path}")
+    return template.render(afd=parsed_afd, afd_json=afd_json)

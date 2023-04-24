@@ -56,6 +56,8 @@ Section object that duplicated the first section in afd.sections
 #### afd.footer
 Section object that duplicated the last section in afd.sections
 
+### afd_json object
+When the template is rendered with the `-w` flag, the NWS API JSON response containing the area forecast discussion is passed to the template and made available as afd_json. See [the NWS API documentation](https://www.weather.gov/documentation/services-web-api#/default/product) for a description of the JSON response.
 
 ## Template locations
 sendAFD searches for templates in the `templates` subdirectory. Any custom templates you wish to use should be located here.

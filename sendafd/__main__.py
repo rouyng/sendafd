@@ -65,6 +65,10 @@ def main():
                         action='store',
                         nargs=1,
                         help="Do not connect to SMTP server, just output rendered email to the specified path. Default: output.msg")
+    parser.add_argument('-w', '--web',
+                        action='store',
+                        nargs=1,
+                        help="Do not connect to SMTP server, output rendered template to the specified path, without adding email header or doing any email-specific formatting. Default output path: output.html")
     parser.add_argument('-i', '--ignore-region-validation',
                         action='store_true',
                         help="Do not validate supplied region code and attempt to fetch AFD from "
@@ -122,26 +126,35 @@ def main():
                 sender_email = args.sender_address
             else:
                 sender_email = args.email_username
-            email = renderer.build_email(afd=parsed_afd,
-                                              sender_email=sender_email,
-                                              recipient_email=args.recipient,
-                                              template_path=template
-                                              )
-            if args.file:
-                logger.info(f"File output enabled, printing email to {args.file}")
-                with open(args.file[0], 'w', encoding='utf-8') as f:
-                        f.write(email.as_string())
-            if args.dry_run:
-                logger.info("Dry run enabled, printing email to stdout")
-                print(email.as_string())
+            # TODO: gracefully handle jinja2.exceptions.TemplateNotFound
+            if args.web:
+                rendered_html = renderer.render_web(parsed_afd=parsed_afd,
+                                                    afd_json=raw_api_response['response'],
+                                                    template_path=template)
+                logger.info(f"File output for web enabled, printing html to {args.file}")
+                with open(args.web[0], 'w', encoding='utf-8') as f:
+                    f.write(rendered_html)
             else:
-                email_result = emailclient.send_email(smtp_server=args.email_server,
-                                           smtp_username=args.email_username,
-                                           smtp_pw=args.email_password,
-                                           email=email,
-                                           )
-                if not email_result:
-                    logger.critical("Failed to send email")
+                rendered_email = renderer.build_email(afd=parsed_afd,
+                                                  sender_email=sender_email,
+                                                  recipient_email=args.recipient,
+                                                  template_path=template
+                                                  )
+                if args.dry_run:
+                    logger.info("Dry run enabled, printing email to stdout")
+                    print(rendered_email.as_string())
+                elif args.file:
+                    logger.info(f"File output enabled, printing email to {args.file}")
+                    with open(args.file[0], 'w', encoding='utf-8') as f:
+                            f.write(rendered_email.as_string())
+                else:
+                    email_result = emailclient.send_email(smtp_server=args.email_server,
+                                               smtp_username=args.email_username,
+                                               smtp_pw=args.email_password,
+                                               email=rendered_email,
+                                               )
+                    if not email_result:
+                        logger.critical("Failed to send email")
         logger.info("sendAFD finished")
     except KeyboardInterrupt:
         logger.critical("Received keyboard interrupt, exiting!")
