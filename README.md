@@ -5,11 +5,11 @@ sendAFD is a command-line tool that generates emails or html files containing th
 
 The National Weather Service publishes area forecast discussions (AFDs) multiple times a day for multiple regions across the U.S. The AFD is a text summary of current weather patterns in the region, written by a NWS meteorologist. This publication is usually accessed by visiting a web page hosted by the local NWS forecast office. 
 
-sendAFD fetches the Area Forecast Discussion from the NWS API and sends it to an email inbox. It can compare the fetched AFD to the last fetched one, sending it only if it has changed. Therefore, sendafd can push updated AFDs to you via email as they change or on a fixed schedule.
+sendAFD fetches the Area Forecast Discussion from the NWS API and sends it to an email inbox. It can compare the fetched AFD to the last fetched one, sending it only if it has changed. Therefore, sendAFD can push updated AFDs to you via email as they change or on a fixed schedule.
 
-It can eamil the AFD as plaintext, preserving the original format, or reformat the AFD using a jinja template. The template system allows the user to customize what sections are included and the presentation style. sendafd includes a simple default template, but also enables you to create and modify your own email templates. 
+It can email the AFD as plaintext, preserving the original format, or reformat the AFD using a jinja template. The template system allows the user to customize what sections are included and the presentation style. sendAFD includes a simple default template, but also enables you to create and modify your own email templates. 
 
-When used to send emails, sendafd uses the python [email](https://docs.python.org/3/library/email.html) package to generate RFC-compliant emails, including multipart emails with plaintext/html content types. Additionally, instead of formatting the area forecast discussion into an email, you can also generate html files for web use.
+When used to send emails, sendAFD uses the python [email](https://docs.python.org/3/library/email.html) package to generate RFC-compliant emails, including multipart emails with plaintext/html content types. Additionally, instead of formatting the area forecast discussion into an email, you can also generate html files for web use.
 
 ## Requirements
 - Python 3.11 or greater.
@@ -64,7 +64,7 @@ Send the PSR AFD as plaintext in monitor mode, which will only send an email if 
 Send the PSR AFD using the custom template located at `templates/my_template.html`:
 `sendafd -t my_template.html foo@bar.com email.emailserver.com someuser@emailserver.com somepassword PSR`
 
-Generate a html file using the custom template located at `templates/sample_web_template.html`. Does not email the output. Used when serving the output as a web page:
+Generate a html file using the custom template located at `templates/sample_web_template.html`. Does not email the output. Used when serving the output as a web page. Use dummy placeholder values for mail addresses/credentials/server:
 `sendafd -w sample_web_template.html foo@bar.com email.emailserver.com someuser@emailserver.com somepassword PSR`
 
 ## Templating
