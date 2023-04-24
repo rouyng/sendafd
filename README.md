@@ -1,9 +1,15 @@
 # sendAFD
-sendAFD is a command-line tool that emails the National Weather Service's Area Forecast Discussion for a chosen area.  sendAFD is designed to be run automatically as a cronjob. Emails are sent via a SMTP server of your choice.
+sendAFD is a command-line tool that generates emails or html files containing the National Weather Service's Area Forecast Discussion for a chosen area. sendAFD is designed to be run automatically as a cronjob. The output is generated using a customizable jinja template and sent as an email or output as html.
 
-The National Weather Service publishes area forecast discussions (AFDs) multiple times a day for multiple regions across the U.S. The AFD is a text summary of current weather patterns in the region, written by a NWS meteorologist. This publication is usually accessed by visiting a web page hosted by the local NWS forecast office. sendAFD fetches the Area Forecast Discussion from the NWS API and sends it directly to your inbox. It can compare the fetched AFD to the last fetched one, sending it only if it has changed. It can also reformat the AFD using a jinja template, allowing the user to customize the presentation style. This template defaults to a simple, readable email format, but also enables you to create and modify your own email templates.
+## Why use it?
 
-Additionally, instead of formatting the area forecast discussion
+The National Weather Service publishes area forecast discussions (AFDs) multiple times a day for multiple regions across the U.S. The AFD is a text summary of current weather patterns in the region, written by a NWS meteorologist. This publication is usually accessed by visiting a web page hosted by the local NWS forecast office. 
+
+sendAFD fetches the Area Forecast Discussion from the NWS API and sends it to an email inbox. It can compare the fetched AFD to the last fetched one, sending it only if it has changed. Therefore, sendafd can push updated AFDs to you via email as they change or on a fixed schedule.
+
+It can eamil the AFD as plaintext, preserving the original format, or reformat the AFD using a jinja template. The template system allows the user to customize what sections are included and the presentation style. sendafd includes a simple default template, but also enables you to create and modify your own email templates. 
+
+When used to send emails, sendafd uses the python [email](https://docs.python.org/3/library/email.html) package to generate RFC-compliant emails, including multipart emails with plaintext/html content types. Additionally, instead of formatting the area forecast discussion into an email, you can also generate html files for web use.
 
 ## Requirements
 - Python 3.11 or greater.
